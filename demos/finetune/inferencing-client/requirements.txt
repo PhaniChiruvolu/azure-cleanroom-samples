@@ -1,0 +1,4 @@
+datasets==2.20.0
+pydantic==2.8.2
+pydantic_settings==2.4.0
+Requests==2.32.3
