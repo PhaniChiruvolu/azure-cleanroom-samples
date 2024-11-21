@@ -36,9 +36,17 @@ Write-Log OperationStarted `
 
 foreach ($handle in $handles)
 {
-    Write-Log Verbose `
-        "Downloading data for '$handle'..."
-    curl -L "$src/$handle.csv" -o "$dataDir/$handle.csv"
+    if (-not (Test-Path "$dataDir/$handle.csv"))
+    {
+        Write-Log Verbose `
+            "Downloading data for '$handle'..."
+        curl -L "$src/$handle.csv" -o "$dataDir/$handle.csv"
+    }
+    else
+    {
+        Write-Log Warning `
+            "Reusing data set '$dataDir/$handle.csv' for demo '$demo'."
+    }
 }
 
 Write-Log OperationCompleted `

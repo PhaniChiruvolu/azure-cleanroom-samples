@@ -20,14 +20,23 @@ if (-not (("fabrikam", "contosso") -contains $persona))
 if ("fabrikam" -eq $persona)
 {
     $dataDir = "$PSScriptRoot/datasource/fabrikam/model"
-    Write-Log OperationStarted `
-        "Generating inference model for demo '$demo'..."
 
-    pip install -r $PSScriptRoot/model/requirements.txt
-    python3 $PSScriptRoot/model/get_model.py --output-path $dataDir
+    if (-not (Test-Path "$dataDir/onnx/model.onnx"))
+    {
+        Write-Log OperationStarted `
+            "Generating inference model for demo '$demo'..."
 
-    Write-Log OperationCompleted `
-        "Generated inference model for demo '$demo' in '$dataDir'."
+        pip install -r $PSScriptRoot/model/requirements.txt
+        python3 $PSScriptRoot/model/get_model.py --output-path $dataDir
+
+        Write-Log OperationCompleted `
+            "Generated inference model for demo '$demo' in '$dataDir'."
+    }
+    else
+    {
+        Write-Log Warning `
+            "Reusing model '$dataDir/onnx/model.onnx' for demo '$demo'."
+    }
 }
 
 #
@@ -44,9 +53,17 @@ if ("contosso" -eq $persona)
     $src = "https://huggingface.co/datasets/cornell-movie-review-data/rotten_tomatoes/resolve/main"
     foreach ($dataset in ("test.parquet", "train.parquet", "validation.parquet"))
     {
-        Write-Log Verbose `
-            "Downloading '$src/$dataset'..."
-        curl -L "$src/$dataset" -o "$dataDir/$dataset"
+        if (-not (Test-Path "$dataDir/$dataset"))
+        {
+            Write-Log Verbose `
+                "Downloading '$src/$dataset'..."
+            curl -L "$src/$dataset" -o "$dataDir/$dataset"
+        }
+        else
+        {
+            Write-Log Warning `
+                "Reusing data set '$dataDir/$dataset' for demo '$demo'."
+        }
     }
 
     Write-Log OperationCompleted `
