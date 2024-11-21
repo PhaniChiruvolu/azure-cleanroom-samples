@@ -15,7 +15,10 @@
           "ms-azuretools.vscode-docker",
           "yzhang.markdown-all-in-one",
           "bierner.markdown-mermaid",
-          "vscode-icons-team.vscode-icons"
+          "vscode-icons-team.vscode-icons",
+          "davidanson.vscode-markdownlint",
+          "bierner.markdown-emoji",
+          "bpruitt-goddard.mermaid-markdown-syntax-highlighting"
         ]
       }
     },
