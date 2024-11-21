@@ -1,3 +1,5 @@
+# Confidential execution of audited queries on protected datasets
+
 This demo uses an analytics application that consumes protected data using `spark` engine and provides an API endpoint for executing audited queries.
 
 The clean room infrastructure abstracts away the encryption and confidential computation details, allowing the application to present data sets to the spark engine in clear text as if executing in a regular container environment.

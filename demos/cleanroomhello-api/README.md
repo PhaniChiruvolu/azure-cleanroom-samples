@@ -1,3 +1,5 @@
+# Confidential access of protected data through an API endpoint
+
 This demo uses the default `nginx-hello` application to bring up an API endpoint for servicing network calls.
 
 Network protection policy is associated with the endpoint that determines the allowed API calls. The sample flows package this policy into an OCI artefact and push it into an Azure Container Registry

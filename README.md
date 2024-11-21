@@ -2,7 +2,7 @@
 
 This repository demonstrates usage of an [Azure **_Confidential Clean Room_** (**CCR**)](https://github.com/Azure/azure-cleanroom) for multi-party collaboration.
 
-# Table of Contents <!-- omit from toc -->
+## Table of Contents <!-- omit from toc -->
 <!--
   DO NOT UPDATE THIS MANUALLY
 
@@ -46,27 +46,30 @@ This repository demonstrates usage of an [Azure **_Confidential Clean Room_** (*
 
 <!--TODO: Add links to corresponding readme in product repo for each capability.-->
 The following aspects of collaboration using clean room infrastructure are demonstrated:
+
 - Collaboration
-    - Publishing sensitive data such that it can only be consumed within a clean room. (_Data Source_)
-    - Producing sensitive data from within the clean room such that it can only be read by the intended party. (_Data Sink_)
-    - Configuring an application to consume and generate sensitive data within a clean room. (_Data Access_)
-    - Configuring HTTPS endpoints for clients to invoke the application. (_API Endpoint_)
-    - Configuring network policy to govern traffic allowed on the application endpoint. (_Network Protection_)
+  - Publishing sensitive data such that it can only be consumed within a clean room. (_Data Source_)
+  - Producing sensitive data from within the clean room such that it can only be read by the intended party. (_Data Sink_)
+  - Configuring an application to consume and generate sensitive data within a clean room. (_Data Access_)
+  - Configuring HTTPS endpoints for clients to invoke the application. (_API Endpoint_)
+  - Configuring network policy to govern traffic allowed on the application endpoint. (_Network Protection_)
 - Governance
-    - Authoring and finalizing a governance contract capturing the application to be executed in the clean room and the data to be made available to it. (_Contract_)
-    - Agreeing upon ARM templates and confidential computation security policies that will be used for deploying a clean room implementing the contract. (_Deployment_)
-    - Authoring and finalizing governed documents queried by clean room applications at runtime. (_Document Store_)
-    - Enabling collection of application logs and clean room infrastructure telemetry, and inspecting the same in a confidential manner. (_Telemetry_)
-    - Auditing clean room execution. (_Audit_)
-    - Configuring federation for clean room identity in a confidential manner. (_Identity Provider_)
-    - Setting up a confidential certificate authority for an HTTPS endpoint inside the clean room. (_CA_)
+  - Authoring and finalizing a governance contract capturing the application to be executed in the clean room and the data to be made available to it. (_Contract_)
+  - Agreeing upon ARM templates and confidential computation security policies that will be used for deploying a clean room implementing the contract. (_Deployment_)
+  - Authoring and finalizing governed documents queried by clean room applications at runtime. (_Document Store_)
+  - Enabling collection of application logs and clean room infrastructure telemetry, and inspecting the same in a confidential manner. (_Telemetry_)
+  - Auditing clean room execution. (_Audit_)
+  - Configuring federation for clean room identity in a confidential manner. (_Identity Provider_)
+  - Setting up a confidential certificate authority for an HTTPS endpoint inside the clean room. (_CA_)
 
 Quick start demos showcasing basic functionality:
+
 - Confidential access of protected data through a job. [`cleanroomhello-job`](./demos/cleanroomhello-job/README.md)
 - Confidential access of protected data through an API endpoint. [`cleanroomhello-api`](./demos/cleanroomhello-api/README.md)
 
 End to end demos showcasing scenario oriented usage:
-- Confidential execution of audited queries on protected datasets using a standalone DB engine residing within the CCR. [`analytics`](./demos/analytics/README.md)
+
+- Confidential execution of audited queries on protected datasets, using a standalone DB engine residing within the CCR. [`analytics`](./demos/analytics/README.md)
 - Confidential inference from sensitive data using a protected ML model. [`inference`](./demos/inference/README.md)
 <!-- TODO: Add fine tuning sample.
 - Confidential fine tuning of a protected ML model on protected datasets. [Training]
@@ -97,29 +100,33 @@ tuning [Job]
 <br>
 
 All the demos demonstrate collaborations where one or more of the following parties come together:
-  - **_Litware_**, end to end solution developer publishing applications that execute within the CCR.
-  - **_Fabrikam_**, collaborator owning sensitive dataset(s) and protected AI model(s) that can be consumed by applications inside a CCR.
-  - **_Contosso_**, collaborator owning sensitive dataset(s) that can be consumed by applications inside a CCR.
+
+- **_Litware_**, end to end solution developer publishing applications that execute within the CCR.
+- **_Fabrikam_**, collaborator owning sensitive dataset(s) and protected AI model(s) that can be consumed by applications inside a CCR.
+- **_Contosso_**, collaborator owning sensitive dataset(s) that can be consumed by applications inside a CCR.
 
 The following parties are additionally involved in completing the end to end demo:
-  - **_Operator_**, clean room provider hosting the CCR infrastructure.
-  - **_Client_**, consumer invoking the CCR endpoint to gather insights, without any access to the protected data itself.
+
+- **_Operator_**, clean room provider hosting the CCR infrastructure.
+- **_Client_**, consumer invoking the CCR endpoint to gather insights, without any access to the protected data itself.
 
 In all cases, a CCR will be executed to run the application while protecting the privacy of all ingested data, as well as protecting any confidential output. The CCR instance can be deployed by the **_operator_**, any of the collaborators or even the **_client_** without any impact on the zero-trust promise architecture.
 
 # Samples environment (per collaborator)
+
 All the involved parties need to bring up a local environment to participate in the sample collaborations.
 
 ## Bringing up the environment
+
 > [!NOTE]
 > Prerequisites to bring up the environment
-> * Docker installed locally. Installation instructions [here](https://docs.docker.com/engine/install/).
-> * PowerShell installed locally. Installation instructions [here](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell).
+>
+> - Docker installed locally. Installation instructions [here](https://docs.docker.com/engine/install/).
+> - PowerShell installed locally. Installation instructions [here](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell).
 >
 > You can also use GitHub Codespaces to create the local environment which would have the above prerequisites pre-installed.
 
 Each party requires an independent environment. To create such an environment, open a separate powershell window for each party and run the following commands:
-
 
 ```powershell
 $persona = # Set to one of: "operator" "litware" "fabrikam" "contosso" "client"
@@ -149,14 +156,15 @@ This create a separate docker container for each party that contains an isolated
 > [!IMPORTANT]
 > The command configures the environment to use a randomly generated resource group name on every invocation. To control the name, or to reuse an existing resource group, pass it in using the `-resourceGroup` parameter.
 
-
 > [!TIP]
 > The`-shareCredentials` switch above enables the experience for sharing Azure credentials across the sample environments of all the parties. This brings up a credential proxy container `azure-cleanroom-samples-credential-proxy` that performs a single interactive logon at the outset, and serves access tokens to the rest of the containers from here onwards.
 
 ## Initializing the environment
+>
 > [!NOTE]
 > Prerequisites to initialize the environment
-> * An Azure subscription with adequate permissions to create resources and manage permissions on these resources.
+>
+> - An Azure subscription with adequate permissions to create resources and manage permissions on these resources.
 
 Once the environment is up, execute the following command to logon to Azure:
 
@@ -167,9 +175,9 @@ az login --identity
 The command shows the subscription that will be used for resource creation by the sample scripts.
 
 > [!TIP]
+>
 > - The command defaults to using shared credentials for logon. To use a different set of credentials for, omit the `--identity` switch and follow the device login prompts.
 > - If another subscription is to be used for creating resources, execute `az account set` to select if before executing the remaining steps.
-
 
 Post login, initialize the enviroment for executing the samples by executing the following command from the `/home/samples` directory:
 
@@ -187,16 +195,20 @@ This command create the resource group and other Azure resources required for ex
 <br>
 
 The following Azure resources are created as part of initialization:
- - Key Vault (Premium) for `litware`, `fabrikam` and `contosso` environments to store data encryption keys.
- - Storage Account for `litware`, `fabrikam` and `contosso` environments to use as a backing store for clean room input and output.
- - Storage Account with public blob access enabled for `litware`, `fabrikam` and `contosso` environments to store federated identity token issuer details.
- - Storage Account with shared key access enabled for `operator` environment to use as a backing store for CCF deployments.
- - Container Registry with anonymous pull enabled for `litware` environment to use as a backing store for clean room applications and network policies.
+
+- Key Vault (Premium) for `litware`, `fabrikam` and `contosso` environments to store data encryption keys.
+- Storage Account for `litware`, `fabrikam` and `contosso` environments to use as a backing store for clean room input and output.
+- Storage Account with public blob access enabled for `litware`, `fabrikam` and `contosso` environments to store federated identity token issuer details.
+- Storage Account with shared key access enabled for `operator` environment to use as a backing store for CCF deployments.
+- Container Registry with anonymous pull enabled for `litware` environment to use as a backing store for clean room applications and network policies.
+
 </details>
 <br>
 
 # High level execution sequence
+
 The sequence diagram below captures the overall flow of execution that happens across the samples being demonstrated. It might be helpful to keep this high level perspective in mind as you run through the steps.
+
 ```mermaid
 sequenceDiagram
     title Collaboration flow
@@ -301,6 +313,7 @@ sequenceDiagram
     m0->>m0: Reviews application logs
     deactivate CACI
 ```
+
 <br>
 
 <!-- TODO: Update block diagram to be more generic. -->
@@ -308,9 +321,10 @@ sequenceDiagram
 ![alt text](./assets/encrypted-storage-layout.png) -->
 
 # Setting up the consortium
+
 Collaboration using a CCR is realized and governed through a consortium created using [CCF](https://microsoft.github.io/CCF/main/overview/what_is_ccf.html) hosting a [Clean Room Governance Service (CGS)](https://github.com/Azure/azure-cleanroom/tree/main/src/governance). All the collaborating parties become participating members in the consortium.
 
-From a confidentiality perspective any of the collaborators or the *operator* can create the CCF instance without affecting the zero-trust assurances. In these samples, we assume that it was agreed upon that the *operator* will host the CCF instance. The *operator* would create the CCF instance and then invite all the collaborators as members into the consortium.
+From a confidentiality perspective any of the collaborators or the _operator_ can create the CCF instance without affecting the zero-trust assurances. In these samples, we assume that it was agreed upon that the _operator_ will host the CCF instance. The _operator_ would create the CCF instance and then invite all the collaborators as members into the consortium.
 
 ```mermaid
 sequenceDiagram
@@ -361,6 +375,7 @@ sequenceDiagram
 ```
 
 ## Member identity creation (operator, litware, fabrikam, contosso)
+
 A CCF member is identified by a public-key certificate used for client authentication and command signing.
 
 Each member of the collaboration creates their member identity by generating their public and private key pair by executing the following command:
@@ -380,6 +395,7 @@ This shares the certificate (e.g. `contosso_cert.pem`) and Azure AD tenant ID wi
 <br>
 
 - `az cleanroom governance member keygenerator-sh` - generate consortium member certificate and keys.
+
 </details>
 <br>
 
@@ -403,12 +419,13 @@ The _operator_ (who is hosting the CCF instance) brings up a CCF instance using 
 - `az cleanroom ccf network transition-to-open` - activate the CCF network.
 - `az cleanroom ccf provider configure` - deploy a local container hosting a client for interacting with the CCF network infrastructure.
 - `az cleanroom governance client deploy` - deploy a local container hosting a client for interacting with the consortium.
+
 </details>
 <br>
 
 ## Invite members to the consortium (operator)
-The _operator_ (who is hosting the CCF instance) registers each member of the collaboration with the consortium using the identity details generated [above](#member-identity-creation-operator-litware-fabrikam-contosso).
 
+The _operator_ (who is hosting the CCF instance) registers each member of the collaboration with the consortium using the identity details generated [above](#member-identity-creation-operator-litware-fabrikam-contosso).
 
 ```powershell
 ./scripts/consortium/register-member.ps1
@@ -428,10 +445,12 @@ The _operator_ (who is hosting the CCF instance) registers each member of the co
 
 - `az cleanroom governance member add` - generate CCF proposal to add a member to the consortium.
 - `az cleanroom governance proposal vote` - accept/reject a CCF proposal.
+
 </details>
 <br>
 
 ## Join the consortium (litware, fabrikam, contosso)
+
 Once the collaborators have been added, they now need to activate their membership before they can participate in the collaboration.
 
 ```powershell
@@ -451,16 +470,20 @@ With the above steps the consortium creation that drives the creation and execut
 <br>
 
 - `az cleanroom governance member activate` - accept an invitation to join the consortium.
+
 </details>
 <br>
 
 # Publishing data
+
 Sensitive data that any of the parties want to bring into the collaboration needs to be encrypted in a manner that ensures the key to decrypt this data will only be released to the clean room environment.
 
 ## KEK-DEK based encryption approach
-The samples follow an envelope encryption model for encryption of data. For the encryption of the data, a symmetric **_Data Encryption Key_** (**DEK**) is generated. An asymmetric key, called the *Key Encryption Key* (KEK), is generated subsequently to wrap the DEK. The wrapped DEKs are stored in a Key Vault as a secret and the KEK is imported into an MHSM/Premium Key Vault behind a secure key release (SKR) policy. Within the clean room, the wrapped DEK is read from the Key Vault and the KEK is retrieved from the MHSM/Premium Key Vault following the secure key release [protocol](https://learn.microsoft.com/en-us/azure/confidential-computing/skr-flow-confidential-containers-azure-container-instance). The DEKs are unwrapped within the cleanroom and then used to access the storage containers.
+
+The samples follow an envelope encryption model for encryption of data. For the encryption of the data, a symmetric **_Data Encryption Key_** (**DEK**) is generated. An asymmetric key, called the _Key Encryption Key_ (KEK), is generated subsequently to wrap the DEK. The wrapped DEKs are stored in a Key Vault as a secret and the KEK is imported into an MHSM/Premium Key Vault behind a secure key release (SKR) policy. Within the clean room, the wrapped DEK is read from the Key Vault and the KEK is retrieved from the MHSM/Premium Key Vault following the secure key release [protocol](https://learn.microsoft.com/en-us/azure/confidential-computing/skr-flow-confidential-containers-azure-container-instance). The DEKs are unwrapped within the cleanroom and then used to access the storage containers.
 
 ## Encrypt and upload data (fabrikam, contosso)
+
 It is assumed that the collaborators have had out-of-band communication and have agreed on the data sets that will be shared. In these samples, the protected data is in the form of one or more files in one or more directories at each collaborators end.
 
 These dataset(s) in the form of files are encrypted using the [KEK-DEK](#kek-dek-based-encryption-approach) approach and uploaded into the storage account created as part of [initializing the sample environment](#initializing-the-environment). Each directory in the source dataset would correspond to one Azure Blob storage container, and all files in the directory are uploaded as blobs to Azure Storage using specified encryption mode - client-side encryption <!-- TODO: Add link to explanation of CSE. -->/ server-side encryption using [customer provided key](https://learn.microsoft.com/azure/storage/blobs/encryption-customer-provided-keys). Only one symmetric key (DEK) is created per directory (blob storage container).
@@ -483,6 +506,7 @@ sequenceDiagram
 
 > [!TIP]
 > Set a variable `$demo` to the name of the demo to be executed (_e.g., "**cleanroomhello-job**"_) - it is a required input for subsequent steps.
+>
 > ```powershell
 > $demo = # Set to one of: "cleanroomhello-job", "cleanroomhello-api", "analytics", "inference"
 > ```
@@ -506,9 +530,9 @@ The following command initializes datastores and uploads encrypted datasets requ
 
 - `az cleanroom datastore add` - initialize a data store. The `--encryption-mode` parameter specifies the encryption mode - `CPK` (server side encryption) or `CSE` (client side encryption).
 - `az cleanroom datastore upload` - encrypt and upload local data to a data store.
+
 </details>
 <br>
-
 
 # Authoring collaboration contract
 
@@ -530,14 +554,13 @@ In addition to the contract fragment, this command creates a managed identity th
 
 - `az cleanroom config init` - initialize a clean room specification representing the contract fragment.
 - `az identity create` - create a managed identity used by the clean room to access Azure resources.
+
 </details>
 <br>
-
 
 ## Adding data sets to the contract (fabrikam, contosso)
 
 The following command adds details about the datastores to be accessed by the clean room and their mode (source/sink) to the contract fragment:
-
 
 ```powershell
 ./scripts/specification/add-specification-data.ps1 -demo $demo
@@ -547,7 +570,7 @@ The following command adds details about the datastores to be accessed by the cl
 > <a name="MountPoints"></a>
 > During clean room execution, the datasources and datasinks get presented to the application as file system mount points using the [Azure Storage Blosefuse](https://github.com/Azure/azure-storage-fuse/tree/main?tab=readme-ov-file#about) driver.
 >
-> The application reads/writes data from/to these mountpoint(s) in clear text. Under the hood, the storage system is configured to handle all the cryptography semantics, and transparently decrypts/encrypt the data using the [DEK](#61-kek-dek-based-encryption-approach) corresponding to each datastore.
+> The application reads/writes data from/to these mountpoint(s) in clear text. Under the hood, the storage system is configured to handle all the cryptography semantics, and transparently decrypts/encrypt the data using the [DEK](#kek-dek-based-encryption-approach) corresponding to each datastore.
 
 <br>
 <details><summary><em>Azure CLI commands used</em></summary>
@@ -555,13 +578,13 @@ The following command adds details about the datastores to be accessed by the cl
 
 - `az cleanroom config add-datasource` - configure a data source for reading data in the clean room.
 - `az cleanroom config add-datasink` - configure a data sink for writing data from the clean room.
+
 </details>
 <br>
 
 ## Adding application to the contract (litware)
 
 The following command adds details about the (containerized) application to be executed within the clean room to the contract fragment:
-
 
 ```powershell
 pwsh ./demos/$demo/add-specification-application.ps1
@@ -570,7 +593,6 @@ pwsh ./demos/$demo/add-specification-application.ps1
 > [!NOTE]
 > For some samples, this command builds and publishes the application to an Azure Container Registry. This could take a long time to complete if the build process has to pull a large number of underlying layers to generate the container image.
 
-
 The application container is configured to access protected data through the corresponding filesystem [mount point](#MountPoints) for the datasource/datasink. The fragment also include details about the container image to be executed such as the container registry, image ID, command, environment variables and requested resources.
 
 > [!WARNING]
@@ -578,10 +600,11 @@ The application container is configured to access protected data through the cor
 
 > [!TIP]
 > The set of datasource/datasink mount points available to an application is controlled through the `--mounts` option of the `az cleanroom config add-application` command. This takes an input of a list of mounts, where each mount is specified as the following two-tuple of key-value pairs (comma separated):
+>
 > - `src=foo`, where `foo` is the name the datasource/datasink to be accessed.
 > - `dst=bar`, where `bar` is the path at which the datasource/datasink is to mounted within the application container.
 >
-> *E.g.*,`--mounts "src=fabrikam-input,dst=/mnt/remote/model" "src=contosso-input,dst=/mnt/remote/dataset"`
+> _E.g._,`--mounts "src=fabrikam-input,dst=/mnt/remote/model" "src=contosso-input,dst=/mnt/remote/dataset"`
 
 > [!TIP]
 > The set of endpoints available to the application is configured through the `az cleanroom config add-application-endpoint` command. This takes an input of the port to be opened and a policy to control the HTTP traffic allowed on that port.
@@ -592,6 +615,7 @@ The application container is configured to access protected data through the cor
 
 - `az cleanroom config add-application` - configure the application to be executed within the clean room.
 - `az cleanroom config add-application-endpoint` - configure an endpoint to communicate with the application executing within the clean room.
+
 </details>
 <br>
 
@@ -616,14 +640,15 @@ The actual download of the logs happens later on in the flow.
 
 - `az cleanroom config set-logging` - configure a data sink for exporting application telemetry (if enabled).
 - `az cleanroom config set-telemetry` - configure a data sink for exporting infrastructure telemetry (if enabled).
+
 </details>
 <br>
 
 # Finalizing collaboration contract
 
-Once the collaborating parties are finished with above steps, the generated contract fragment for each party captures various details that all parties need to exchange and agree upon before the clean room can be created and deployed. This exchange and agreement is captured formally by creation of a **_governance contract_** hosted in the consortium. This is a YAML document that is generated by consuming all the contract fragments and captures the collaboration details in a formal [*clean room specification*](../../docs/cleanroomspec.md).
+Once the collaborating parties are finished with above steps, the generated contract fragment for each party captures various details that all parties need to exchange and agree upon before the clean room can be created and deployed. This exchange and agreement is captured formally by creation of a **_governance contract_** hosted in the consortium. This is a YAML document that is generated by consuming all the contract fragments and captures the collaboration details in a formal [_clean room specification_](../../docs/cleanroomspec.md).
 
-From a confidentiality perspective, the contract creation and proposal can be initiated by any of the collaborators or the *operator* without affecting the zero-trust assurances. In these samples, we assume that it was agreed upon that the *operator* undertakes this responsibility.
+From a confidentiality perspective, the contract creation and proposal can be initiated by any of the collaborators or the _operator_ without affecting the zero-trust assurances. In these samples, we assume that it was agreed upon that the _operator_ undertakes this responsibility.
 
 ```mermaid
 sequenceDiagram
@@ -674,13 +699,13 @@ sequenceDiagram
 
 The _operator_ merges all the contract fragments shared by the collaborators and proposes the resultant clean room specification yaml as the final contract.
 
-
 ```powershell
 ./scripts/contract/register-contract.ps1 -demo $demo
 ```
 
 > [!TIP]
 > Set a variable `$contractId` to the contract ID generated above (_e.g., "**collab-cleanroomhello-job-8a106fb6**"_) - it is a required input for subsequent steps.
+>
 > ```powershell
 > $contractId = # generated contractId # E.g. "collab-cleanroomhello-job-8a106fb6"
 > ```
@@ -695,9 +720,9 @@ The _operator_ merges all the contract fragments shared by the collaborators and
 - `az cleanroom config view` - merge multiple contract fragments into a single clean room specification.
 - `az cleanroom governance contract create` - initialize a collaboration contract.
 - `az cleanroom governance contract propose` - propose a collaboration contract to the consortium.
+
 </details>
 <br>
-
 
 ## Agreeing upon the contract (litware, fabrikam, contosso, operator)
 <!--TODO: Get rid of the operator agreeing upon the contract.-->
@@ -721,10 +746,12 @@ The collaborating parties can now query the governance service to get the propos
 - `az cleanroom governance contract vote` - accept / reject a collaboration contract.
 - `az cleanroom governance document create` - initialize a collaboration document.
 - `az cleanroom governance document propose` - propose a collaboration document to the consortium.
+
 </details>
 <br>
 
 ## Propose ARM template, CCE policy and log collection (operator)
+
 Once the contract is accepted by all the collaborators, the _operator_ generates the artefacts required for deploying a _*CCR*_ instance for the contained clean room specification using Azure Confidential Container Instances ([_C-ACI_](https://learn.microsoft.com/azure/container-instances/container-instances-confidential-overview)) and proposes them to the consortium.
 
 ```powershell
@@ -750,15 +777,14 @@ In addition to this, the command submits an **_enable CA_** proposal to provisio
 - `az cleanroom governance ca propose-enable` - propose enabling root CA functionality to the consortium.
 - `az cleanroom governance contract runtime-option propose --option logging` - propose enabling export of application telemetry.
 - `az cleanroom governance contract runtime-option propose --option telemetry` - propose enabling export of infrastructure telemetry.
+
 </details>
 <br>
-
 
 ## Accept ARM template, CCE policy and logging proposals (litware, fabrikam, contosso, operator)
 <!--TODO: Get rid of the operator agreeing upon the contract.-->
 
-Once the *ARM template* and *CCE policy* proposals are available in the consortium, the collaborating parties validate and vote on these proposals. In these samples, we accept these proposals without any verification.
-
+Once the _ARM template_ and _CCE policy_ proposals are available in the consortium, the collaborating parties validate and vote on these proposals. In these samples, we accept these proposals without any verification.
 
 ```powershell
 ./scripts/contract/confirm-deployment-artefacts.ps1 -contractId $contractId
@@ -778,17 +804,17 @@ Where applicable, any documents proposed to be associated with this contract are
 - `az cleanroom governance proposal vote` - accept/reject proposal.
 - `az cleanroom governance document show` - show collaboration document.
 - `az cleanroom governance document vote` - accept/reject collaboration document.
+
 </details>
 <br>
 
-
 ## Configure resource access for clean room (litware, fabrikam, contosso)
+
 All the collaborating parties need to give access to the clean room so that the clean room environment can access resources in their respective tenants.
 
 The DEKs that were created for dataset encryption as part of [data publishing](#publishing-data) are now wrapped using a KEK generated for each contract. The KEK is uploaded in Key Vault and configured with a secure key release (SKR) policy while the wrapped-DEK is saved as a secret in Key Vault.
 
 The managed identities created earlier as part of [authoring the contract](#authoring-collaboration-contract) are given access to resources, and a federated credential is setup for these managed identities using the CGS OIDC identity provider. This federated credential allows the clean room to obtain an attestation based managed identity access token during execution.
-
 
 ```powershell
 ./scripts/contract/grant-deployment-access.ps1 -contractId $contractId -demo $demo
@@ -797,9 +823,7 @@ The managed identities created earlier as part of [authoring the contract](#auth
 > [!IMPORTANT]
 > The command configures an OIDC issuer with the consortium at an Azure Active Directory Tenant level. In a setup where multiple parties belongs to the same tenant, it is important to avoid any race conditions in setting up this OIDC issuer. For such setups, it is recommended that this command should be executed by the affected parties one after the other, and not simultaenously.
 
-
 The flow below is executed by all the collaborators in their respective Azure tenants.
-
 
 ```mermaid
 sequenceDiagram
@@ -824,7 +848,6 @@ sequenceDiagram
     m0->>mi: Setup federated credential on MI
 ```
 
-
 <br>
 <details><summary><em>Azure CLI commands used</em></summary>
 <br>
@@ -833,14 +856,15 @@ sequenceDiagram
 - `az role assignment create` - configure resource access permissions for clean room managed identity.
 - `az cleanroom governance oidc-issuer set-issuer-url` - configure OIDC identity provider for tenant.
 - `az identity federated-credential create` - set up federation between managed identity and OIDC issuer.
+
 </details>
 <br>
 
-
 # Using the clean room
-## Deploy clean room (operator)
-Once the ARM template and CCE policy proposals have been accepted and access has been configured, the party deploying the clean room (the *operator* in our case) can do so by running the following:
 
+## Deploy clean room (operator)
+
+Once the ARM template and CCE policy proposals have been accepted and access has been configured, the party deploying the clean room (the _operator_ in our case) can do so by running the following:
 
 ```powershell
 ./scripts/cleanroom/deploy-cleanroom.ps1 -contractId $contractId
@@ -848,15 +872,12 @@ Once the ARM template and CCE policy proposals have been accepted and access has
 
 Run the following script to wait for the cleanroom application to start:
 
-
 ```powershell
 ./scripts/cleanroom/wait-cleanroom.ps1 -contractId $contractId
 ```
 
-
 > [!TIP]
 If the cleanroom application is being executed as a job, add the `-job` switch to wait for the job to complete.
-
 
 <br>
 <details><summary><em>Azure CLI commands used</em></summary>
@@ -866,6 +887,7 @@ If the cleanroom application is being executed as a job, add the `-job` switch t
 - `az cleanroom governance ca show` - display CA certificate details.
 - `az cleanroom governance deployment template show` - show agreed upon ARM deployment template.
 - `az deployment group create` - deploy ARM template.
+
 </details>
 <br>
 
@@ -877,7 +899,6 @@ In case of clean room applications offering API endpoints, the endpoints can be 
 
 The application specific output can be viewed by running the following command:
 
-
 ```powershell
 pwsh ./demos/$demo/show-output.ps1 -contractId $contractId
 ```
@@ -886,19 +907,20 @@ pwsh ./demos/$demo/show-output.ps1 -contractId $contractId
 > Further details of the output for each demo may be found in the corresponding readme files - [`cleanroomhello-job`](./demos/cleanroomhello-job/README.md) [`cleanroomhello-api`](./demos/cleanroomhello-api/README.md) [`analytics`](./demos/analytics/README.md)
  [`inference`](./demos/inference/README.md)
 
-
 <br>
 <details><summary><em>Azure CLI commands used</em></summary>
 <br>
 
 - `az cleanroom datastore download` - download and decrypt data to local store.
+
 </details>
 <br>
 
 # Governing the cleanroom
-## Viewing telemetry (litware)
-The application developer (_litware_) can download the infrastructure telemetry and application logs. These are available post execution in an encrypted form. To decrypt and inspect, run the following:
 
+## Viewing telemetry (litware)
+
+The application developer (_litware_) can download the infrastructure telemetry and application logs. These are available post execution in an encrypted form. To decrypt and inspect, run the following:
 
 ```powershell
 ./scripts/governance/show-telemetry.ps1 -demo $demo -contractId $contractId
@@ -907,6 +929,7 @@ The application developer (_litware_) can download the infrastructure telemetry 
 The infrastructure containers emit traces, logs and metrics that are useful for debugging errors, tracing the execution sequence etc. The telemetry dashboard uses [.NET Aspire Dashboard](https://learn.microsoft.com/en-us/dotnet/aspire/fundamentals/dashboard/standalone?tabs=bash) to display these.
 
 There are different views that are available:
+
 1. Traces: Track requests and activities across all the sidecars so that we can see where time is spent and track down specific failures.
 2. Logs: Record individual operations in the context of one of the request / activity.
 3. Metrics: Measure counters and gauges such as successful requests, failed requests, latency etc.
@@ -921,6 +944,7 @@ There are different views that are available:
 
 - `az cleanroom telemetry download` - download and decrypt infrastructure telemetry to local store.
 - `az cleanroom logs download` - download and decrypt application telemetry to local store.
+
 </details>
 <br>
 
@@ -936,11 +960,9 @@ There are different views that are available:
 
 ![Structured logs as seen in the dashboard](./assets/logs.png)
 
-
 ## Viewing audit events (operator, litware, fabrikam, contosso)
 
 All collaborators can check for any audit events raised by the clean room during its execution for the contract by running this command:
-
 
 ```powershell
 ./scripts/governance/show-audit-events.ps1 -contractId $contractId
@@ -955,6 +977,7 @@ All collaborators can check for any audit events raised by the clean room during
 <br>
 
 - `az cleanroom governance contract event list` - view logged events.
+
 </details>
 <br>
 
@@ -962,7 +985,7 @@ All collaborators can check for any audit events raised by the clean room during
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+the rights to use your contribution. For details, visit <https://cla.opensource.microsoft.com>.
 
 When you submit a pull request, a CLA bot will automatically determine whether you need to provide
 a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
@@ -979,3 +1002,16 @@ trademarks or logos is subject to and must follow
 [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
 Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.
+
+<!-- markdownlint-disable-file single-h1 no-blanks-blockquote -->
+<!-- markdownlint-configure-file {
+  "no-inline-html": {
+    "allowed_elements": [
+      "a",
+      "br",
+      "details",
+      "summary",
+      "em"
+    ]
+  }
+} -->

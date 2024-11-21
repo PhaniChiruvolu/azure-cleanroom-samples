@@ -1,3 +1,5 @@
+# Confidential access of protected data through a job
+
 This demo uses a simple application that reads a protected file from an input path and writes a protected compressed file to an output path.
 
 The clean room infrastructure abstracts away the encryption and confidential computation details, allowing the application to process data in clear text as if executing in a regular container environment.
