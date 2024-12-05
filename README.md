@@ -210,6 +210,100 @@ The following Azure resources are created as part of initialization:
 The sequence diagram below captures the overall flow of execution that happens across the samples being demonstrated. It might be helpful to keep this high level perspective in mind as you run through the steps.
 
 ```mermaid
+flowchart TB
+    subgraph DataPrep [Prepare Data]
+        _1@{ shape: notch-rect, label: "Publish (secured) data to be processed inside the clean room." }
+    end
+    subgraph CodePrep [Application Preparation]
+        _2@{ shape: notch-rect, label: "Publish application to be executed inside the clean room." }
+    end
+    subgraph GenerateSpec [Specification Generation]
+        _3@{ shape: notch-rect, label: "Author clean room specification." }
+    end
+    subgraph PreProvision [Pre Provisioning]
+        _4@{ shape: notch-rect, label: "Provision artefacts for deploying a clean room." }
+    end
+    subgraph ResourceProvision [Resource Provisioning]
+        _5@{ shape: notch-rect, label: "Configure secure access from clean room to data." }
+    end
+    subgraph ComputeProvision [Compute Provisioning]
+        _6@{ shape: notch-rect, label: "Deploy clean room." }
+    end
+    subgraph Execution [Application Execution]
+        _7@{ shape: notch-rect, label: "Launch application inside clean room." }
+    end
+    subgraph ConsortiumPrep [Set up the consortium]
+        _8@{ shape: notch-rect, label: "Set up consortium to govern the clean room." }
+    end
+    subgraph FinalizeSpec [Contract Generation]
+        _9@{ shape: notch-rect, label: "Finalize clean room specification." }
+    end
+
+  Start@{shape: circle, label: "Start"}
+  Start -.-> DataPrep & CodePrep & ConsortiumPrep
+  DataPrep & CodePrep -.-> GenerateSpec
+  GenerateSpec & ConsortiumPrep -.-> FinalizeSpec
+  FinalizeSpec -.-> PreProvision
+  PreProvision -.-> ResourceProvision
+  ResourceProvision -.-> ComputeProvision
+  ComputeProvision -.-> Execution
+  Finish@{shape: stadium, label: "Application" }
+  Execution -.-> Finish
+```
+
+```mermaid
+stateDiagram-v2
+    direction TB
+    DataPrep: Data Preparation
+    CodePrep: Code Preparation
+    GenerateSpec: Specification Generation
+    PreProvision: Pre Provisioning
+    ResourceProvision: Resource Provisioning
+
+    [*] --> DataPrep
+    state DataPrep {
+        [*] --> [*]
+    }
+    note right of DataPrep
+        Secure data to processed inside the clean room.
+    end note
+
+    state CodePrep {
+        [*] --> [*]
+    }
+    note left of CodePrep
+        Secure code to processed inside the clean room.
+    end note
+
+    state GenerateSpec {
+        [*] --> [*]
+    }
+    note right of GenerateSpec
+        Author clean room specification.
+    end note
+
+    state PreProvision {
+        [*] --> [*]
+    }
+    note left of PreProvision
+        Provision artefacts for deploying a clean room.
+    end note
+
+    state ResourceProvision {
+        [*] --> [*]
+    }
+    note left of ResourceProvision
+        Configure secure access from the computation environment to data.
+    end note
+
+    DataPrep --> CodePrep
+    CodePrep --> GenerateSpec
+    GenerateSpec --> PreProvision
+    PreProvision --> ResourceProvision
+    ResourceProvision --> [*]
+```
+
+```mermaid
 sequenceDiagram
     title Collaboration flow
     actor m0 as litware
@@ -291,7 +385,7 @@ sequenceDiagram
     mx-)CACI: Delete clean room
     deactivate CACI
 
-    Note over m0,CACI: Using the clean room (Job)
+    Note over mx,CACI: Using the clean room (Job)
     mx-)CACI: Deploys clean room
     activate CACI
     CACI->>CCF: Checks execution consent
